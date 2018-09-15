@@ -2,20 +2,28 @@ package com.rrdev;
 
 import com.rrdev.listener.TravelStateListener;
 
-import static com.rrdev.RollerCoasterWagon.TRAVEL_STATE_END;
-import static com.rrdev.RollerCoasterWagon.TRAVEL_STATE_START;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class Main {
+
+    public Semaphore mutex = new Semaphore(1);
+
+    private ArrayList<Passenger> listPassengersOnWagon;
+    private List<Passenger> listPassengerWaiting = new ArrayList<>();
 
     public static void main(String[] args) {
         RollerCoasterWagon rollerCoasterWagon = new RollerCoasterWagon(5, 3);
         rollerCoasterWagon.setTravelListener(new TravelStateListener() {
             @Override
-            public void travelState(int state) {
-                if (state == TRAVEL_STATE_START)
-                    System.out.println("Travel has started");
-                else if (state == TRAVEL_STATE_END)
-                    System.out.println("Travel has finished");
+            public void startTravel() {
+
+            }
+
+            @Override
+            public void finishedTravel() {
+
             }
         });
         rollerCoasterWagon.start();
