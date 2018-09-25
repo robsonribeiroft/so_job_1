@@ -16,14 +16,14 @@ public class RollerCoasterWagon extends Thread {
     private int timeOfTravel;
     private boolean keepTraveling = true;
 
-    public RollerCoasterWagon(int availableSeats, int timeOfTravel){
+    RollerCoasterWagon(int availableSeats, int timeOfTravel){
         this.availableSeats = availableSeats;
         this.timeOfTravel = timeOfTravel;
         accessWagon = new Semaphore(availableSeats);
         this.start();
     }
 
-    public int getAvailableSeats() {
+    int getAvailableSeats() {
         return availableSeats;
     }
 
@@ -47,6 +47,7 @@ public class RollerCoasterWagon extends Thread {
                 DateUtil.skippSecond();
                 System.out.println("Wagon time: "+count);
             }
+
             for (Passenger p : getInstance().passengersOnWagon) {
                 p.finishTravel();
             }
@@ -57,7 +58,7 @@ public class RollerCoasterWagon extends Thread {
     }
 
 
-    public void startTravel() {
+    void startTravel() {
         travelWagon.release();
     }
 }

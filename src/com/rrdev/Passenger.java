@@ -12,7 +12,7 @@ public class Passenger extends Thread {
     private boolean keepComingBack = true;
     private boolean onTravel = true;
 
-    public Passenger(int id, int timeBoarding, int timeLanding){
+    Passenger(int id, int timeBoarding, int timeLanding){
         this.id = id;
         this.timeBoarding = timeBoarding;
         this.timeLanding = timeLanding;
@@ -24,8 +24,12 @@ public class Passenger extends Thread {
         return "Passenger " +id;
     }
 
-    public void finishTravel(){
+    synchronized void finishTravel(){
         this.onTravel = false;
+    }
+
+    private synchronized boolean stateTravel(){
+        return  this.onTravel;
     }
 
     private void verifyWagon(){
@@ -66,9 +70,9 @@ public class Passenger extends Thread {
     private void enjoyTravel(){
         System.out.println(id +" is enjoying the travel");
         do {
-            System.currentTimeMillis();
-            System.out.println(id +" is travelling");
-        } while (this.onTravel);
+           System.currentTimeMillis();
+        } while (stateTravel());
+
         System.out.println(id +" liked the travel");
     }
 
