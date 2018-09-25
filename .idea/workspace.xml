@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eedf06f4-835f-4abf-a14d-027fabbefa43" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/com/rrdev/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/rrdev/Passenger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/rrdev/Singleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/rrdev/Singleton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/rrdev/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/rrdev/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,13 +28,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="4380" />
+          <entry key="java" value="4389" />
           <entry key="kt" value="137" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="4380" />
+          <entry key="JAVA" value="4389" />
           <entry key="Kotlin" value="137" />
         </counts>
       </usages-collector>
@@ -55,11 +54,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/rrdev/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="66" selection-start-line="8" selection-start-column="66" selection-end-line="8" selection-end-column="66" />
+            <state relative-caret-position="150">
+              <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -90,11 +89,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/rrdev/Passenger.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="534">
-              <caret line="89" column="57" lean-forward="true" selection-start-line="89" selection-start-column="57" selection-end-line="89" selection-end-column="57" />
+            <state relative-caret-position="360">
+              <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#575#576#0" expanded="true" />
@@ -166,10 +165,10 @@
         <option value="$PROJECT_DIR$/src/com/rrdev/listener/PassengerHandleWagonListener.java" />
         <option value="$PROJECT_DIR$/src/com/rrdev/listener/TravelStateListener.java" />
         <option value="$PROJECT_DIR$/src/com/rrdev/util/DateUtil.java" />
-        <option value="$PROJECT_DIR$/src/com/rrdev/Main.java" />
         <option value="$PROJECT_DIR$/src/com/rrdev/RollerCoasterWagon.java" />
         <option value="$PROJECT_DIR$/src/com/rrdev/Singleton.java" />
         <option value="$PROJECT_DIR$/src/com/rrdev/Passenger.java" />
+        <option value="$PROJECT_DIR$/src/com/rrdev/Main.java" />
       </list>
     </option>
   </component>
@@ -234,7 +233,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="travelWagon&#9;PSI&#9;JAVA://com.rrdev.Singleton#travelWagon" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537880491024" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1537880997771" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
@@ -360,13 +359,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/rrdev/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="66" selection-start-line="8" selection-start-column="66" selection-end-line="8" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/rrdev/RollerCoasterWagon.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="309">
@@ -391,8 +383,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/rrdev/Passenger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="534">
-          <caret line="89" column="57" lean-forward="true" selection-start-line="89" selection-start-column="57" selection-end-line="89" selection-end-column="57" />
+        <state relative-caret-position="360">
+          <caret line="24" column="5" lean-forward="true" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#575#576#0" expanded="true" />
@@ -400,6 +392,13 @@
             <element signature="e#521#522#0" expanded="true" />
             <element signature="e#558#559#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/rrdev/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
         </state>
       </provider>
     </entry>
