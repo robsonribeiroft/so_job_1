@@ -1,68 +1,126 @@
 package com.rrdev;
 
-import com.rrdev.listener.PassengerHandleWagonListener;
 import com.rrdev.util.DateUtil;
 
-import java.util.Date;
+import static com.rrdev.Singleton.*;
 
-public class Passenger extends Thread{
+public class Passenger extends Thread {
 
     private int id;
     private int timeBoarding;
     private int timeLanding;
     private boolean keepComingBack = true;
-
-    private PassengerHandleWagonListener listener;
+    private boolean onTravel = true;
+    boolean isOnTheWagon = false;
 
     public Passenger(int id, int timeBoarding, int timeLanding){
         this.id = id;
         this.timeBoarding = timeBoarding;
         this.timeLanding = timeLanding;
+        this.start();
     }
 
-    public void getInTheWagon(){
-        long timeBoardingInMillis;
-        long currentTime;
-        int count;
-        timeBoardingInMillis = timeBoarding*1000;
-        currentTime = System.currentTimeMillis();
-        count = timeBoarding;
+    @Override
+    public boolean equals(Object obj) {
+        Passenger p = (Passenger) obj;
+        return this.id == p.id && this.timeBoarding == p.timeBoarding && this.timeLanding == p.timeLanding;
 
-        while(System.currentTimeMillis() < (currentTime+timeBoardingInMillis)){
-            long currentTimeSecond = System.currentTimeMillis();
-            while(System.currentTimeMillis()<(currentTimeSecond+1000)){}
-            count--;
-            System.out.println("LAP: "+count+" onTime:"+ DateUtil.formatOnPattern(new Date(), DateUtil.DATE_PATTERN));
+    }
+
+    public void finishTravel(){
+        this.onTravel = false;
+    }
+
+    private void verifyWagon(){
+        try {
+            accessWagon.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        listener.enterTheWagon(id);
-    }
-
-    public void leaveWagon(){
-        long timeLeaveInMillis;
-        long currentTime;
-        int count;
-        timeLeaveInMillis = timeLanding*1000;
-        currentTime = System.currentTimeMillis();
-        count = timeBoarding;
-
-        while(System.currentTimeMillis() < (currentTime+timeLeaveInMillis)){
-            long currentTimeSecond = System.currentTimeMillis();
-            while(System.currentTimeMillis()<(currentTimeSecond+1000)){}
-            count--;
-            System.out.println("LAP: "+count+" onTime:"+ DateUtil.formatOnPattern(new Date(), DateUtil.DATE_PATTERN));
+        if (getInstance().passengersOnWagon.size() < getInstance().wagon.getAvailableSeats()){
+            getInstance().passengersOnWagon.add(this);
+            for (int i = 0; i < getInstance().passengersWaiting.size(); i++) {
+                if (getInstance().passengersWaiting.get(i).equals(this)){
+                    getInstance().passengersWaiting.remove(i);
+                }
+            }
         }
-        listener.leavesTheWagon(id);
+        /*
+        try {
+            accessWagon.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        */
     }
+
+    private void getInTheWagon() throws InterruptedException {
+        int count = timeBoarding;
+
+        while (count-- > 0){
+            DateUtil.skippSecond();
+            System.out.println(id+" is boarding: "+count);
+        }
+        System.out.println("Passenger "+ id +" embarcou!");
+
+        this.isOnTheWagon = true;
+        if (getInstance().passengersOnWagon.size() == getInstance().wagon.getAvailableSeats()){
+            waitingFull.release(getInstance().passengersWaitingFull);
+            getInstance().wagon.startTravel();
+        }else {
+            getInstance().passengersWaitingFull++;
+            waitingFull.acquire();
+        }
+    }
+
+
+    private void enjoyTravel(){
+        System.out.println(id +" is enjoying the travel");
+        while (onTravel){
+            System.currentTimeMillis();
+        }
+        System.out.println(id +" liked the travel");
+    }
+
+    private void leaveWagon(){
+        int count = timeLanding;
+
+        System.out.println(id +" is leaving the wagon");
+        while(count-- > 0){
+            DateUtil.skippSecond();
+            System.out.println(id+" is leaving: "+count);
+        }
+        System.out.println(id +" is on the waiting line");
+
+
+        onTravel = true;
+        getInstance().passengersWaiting.add(this); 
+        for (int i = 0; i < getInstance().passengersOnWagon.size(); i++) {
+            if (getInstance().passengersOnWagon.get(i).equals(this)){
+                getInstance().passengersOnWagon.remove(i);
+            }
+        }
+        accessWagon.release(getInstance().wagon.getAvailableSeats());
+    }
+
+
 
     @Override
     public void run(){
         while (keepComingBack){
-            getInTheWagon();
-            leaveWagon();
+
+            try {
+
+                verifyWagon();
+                getInTheWagon();
+                enjoyTravel();
+                leaveWagon();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void setListener(PassengerHandleWagonListener listener) {
-        this.listener = listener;
-    }
+
 }

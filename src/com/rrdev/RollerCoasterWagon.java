@@ -1,9 +1,14 @@
 package com.rrdev;
 
-import com.rrdev.listener.TravelStateListener;
 import com.rrdev.util.DateUtil;
 
 import java.util.Date;
+import java.util.concurrent.Semaphore;
+
+import static com.rrdev.Singleton.getInstance;
+import static com.rrdev.Singleton.accessWagon;
+import static com.rrdev.Singleton.travelWagon;
+import static com.rrdev.util.DateUtil.formatOnPattern;
 
 public class RollerCoasterWagon extends Thread {
 
@@ -11,50 +16,52 @@ public class RollerCoasterWagon extends Thread {
     private int timeOfTravel;
     private boolean keepTraveling = true;
 
-    private TravelStateListener travelListener;
-
     public RollerCoasterWagon(int availableSeats, int timeOfTravel){
         this.availableSeats = availableSeats;
         this.timeOfTravel = timeOfTravel;
+        accessWagon = new Semaphore(availableSeats);
+        this.start();
     }
 
     public int getAvailableSeats() {
         return availableSeats;
     }
 
-    public void setKeepTraveling(boolean keepTraveling) {
+    public void destroyWagon(boolean keepTraveling) {
         this.keepTraveling = keepTraveling;
-    }
-
-    public void setTravelListener(TravelStateListener travelListener) {
-        this.travelListener = travelListener;
     }
 
     @Override
     public void run(){
-
-        long timeOfTravelInMillis;
-        long currentTime;
         int count;
-
+        System.out.println("before loop travel");
         while (keepTraveling){
-            timeOfTravelInMillis = timeOfTravel*1000;
-            currentTime = System.currentTimeMillis();
             count = this.timeOfTravel;
-
-            travelListener.startTravel();
-            while(System.currentTimeMillis() < (currentTime+timeOfTravelInMillis)){
-                long currentTimeSecond = System.currentTimeMillis();
-                while(System.currentTimeMillis()<(currentTimeSecond+1000)){}
-                count--;
-                System.out.println("LAP: "+count+" onTime:"+DateUtil.formatOnPattern(new Date()));
+            try {
+                travelWagon.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-            travelListener.finishedTravel();
+            System.out.println("Wagon start travel");
+            System.out.println("time start: "+ formatOnPattern(new Date()));
+            while(count-- > 0){
+                DateUtil.skippSecond();
+                System.out.println("Wagon time: "+count);
+            }
+
+            System.out.println("time end: "+ formatOnPattern(new Date()));
+
+            for (Passenger p : getInstance().passengersOnWagon) {
+                p.finishTravel();
+            }
+            System.out.println("Wagon finished travel");
         }
 
 
     }
 
 
-
+    public void startTravel() {
+        travelWagon.release();
+    }
 }

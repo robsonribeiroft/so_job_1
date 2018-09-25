@@ -1,32 +1,13 @@
 package com.rrdev;
 
-import com.rrdev.listener.TravelStateListener;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Semaphore;
+import static com.rrdev.Singleton.getInstance;
 
 public class Main {
 
-    public Semaphore mutex = new Semaphore(1);
-
-    private ArrayList<Passenger> listPassengersOnWagon;
-    private List<Passenger> listPassengerWaiting = new ArrayList<>();
-
     public static void main(String[] args) {
-        RollerCoasterWagon rollerCoasterWagon = new RollerCoasterWagon(5, 3);
-        rollerCoasterWagon.setTravelListener(new TravelStateListener() {
-            @Override
-            public void startTravel() {
-
-            }
-
-            @Override
-            public void finishedTravel() {
-
-            }
-        });
-        rollerCoasterWagon.start();
+        getInstance().wagon = new RollerCoasterWagon(1, 10);
+        Passenger p0 = new Passenger(0, 4, 5);
+        //Passenger p1 = new Passenger(1, 3, 4);
     }
 
 
