@@ -42,19 +42,15 @@ public class RollerCoasterWagon extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Wagon start travel");
-            System.out.println("time start: "+ formatOnPattern(new Date()));
+            System.out.println("Wagon start travel "+ formatOnPattern(new Date()));
             while(count-- > 0){
                 DateUtil.skippSecond();
                 System.out.println("Wagon time: "+count);
             }
-
-            System.out.println("time end: "+ formatOnPattern(new Date()));
-
             for (Passenger p : getInstance().passengersOnWagon) {
                 p.finishTravel();
             }
-            System.out.println("Wagon finished travel");
+            System.out.println("Wagon finished travel " + formatOnPattern(new Date()));
         }
 
 

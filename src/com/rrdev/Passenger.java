@@ -11,7 +11,7 @@ public class Passenger extends Thread {
     private int timeLanding;
     private boolean keepComingBack = true;
     private boolean onTravel = true;
-    boolean isOnTheWagon = false;
+    private boolean isOnTheWagon = false;
 
     public Passenger(int id, int timeBoarding, int timeLanding){
         this.id = id;
@@ -21,10 +21,8 @@ public class Passenger extends Thread {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        Passenger p = (Passenger) obj;
-        return this.id == p.id && this.timeBoarding == p.timeBoarding && this.timeLanding == p.timeLanding;
-
+    public String toString() {
+        return "Passenger " +id;
     }
 
     public void finishTravel(){
@@ -37,21 +35,13 @@ public class Passenger extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (getInstance().passengersOnWagon.size() < getInstance().wagon.getAvailableSeats()){
-            getInstance().passengersOnWagon.add(this);
-            for (int i = 0; i < getInstance().passengersWaiting.size(); i++) {
-                if (getInstance().passengersWaiting.get(i).equals(this)){
-                    getInstance().passengersWaiting.remove(i);
-                }
+
+        for (int i = 0; i < getInstance().passengersWaiting.size(); i++) {
+            if (this.id == getInstance().passengersWaiting.get(i).id){
+                System.out.println(id + " out of waiting line");
+                getInstance().passengersWaiting.remove(i);
             }
         }
-        /*
-        try {
-            accessWagon.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        */
     }
 
     private void getInTheWagon() throws InterruptedException {
@@ -61,7 +51,9 @@ public class Passenger extends Thread {
             DateUtil.skippSecond();
             System.out.println(id+" is boarding: "+count);
         }
+        getInstance().passengersOnWagon.add(this);
         System.out.println("Passenger "+ id +" embarcou!");
+        System.out.println("passengersOnWagon "+ getInstance().passengersOnWagon );
 
         this.isOnTheWagon = true;
         if (getInstance().passengersOnWagon.size() == getInstance().wagon.getAvailableSeats()){
@@ -94,7 +86,7 @@ public class Passenger extends Thread {
 
 
         onTravel = true;
-        getInstance().passengersWaiting.add(this); 
+        getInstance().passengersWaiting.add(this);
         for (int i = 0; i < getInstance().passengersOnWagon.size(); i++) {
             if (getInstance().passengersOnWagon.get(i).equals(this)){
                 getInstance().passengersOnWagon.remove(i);

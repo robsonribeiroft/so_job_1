@@ -5,8 +5,8 @@ import static com.rrdev.Singleton.getInstance;
 public class Main {
 
     public static void main(String[] args) {
-        getInstance().wagon = new RollerCoasterWagon(1, 10);
-        Passenger p0 = new Passenger(0, 4, 5);
+        getInstance().wagon = new RollerCoasterWagon(1, 5);
+        getInstance().passengersWaiting.add(new Passenger(0, 4, 5));
         //Passenger p1 = new Passenger(1, 3, 4);
     }
 
