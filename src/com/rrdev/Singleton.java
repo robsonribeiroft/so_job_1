@@ -14,12 +14,12 @@ public class Singleton {
         return uniqueInstance;
     }
 
+    public static int passengersWaitingFull = 0;
     public static Semaphore accessWagon;
     public static Semaphore waitingFull = new Semaphore(0);
     public static Semaphore travelWagon = new Semaphore(0);
 
     public RollerCoasterWagon wagon;
-    public int passengersWaitingFull = 0;
     public List<Passenger> passengersOnWagon = new ArrayList<>();
     public List<Passenger> passengersWaiting = new ArrayList<>();
 

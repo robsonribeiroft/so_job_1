@@ -11,7 +11,6 @@ public class Passenger extends Thread {
     private int timeLanding;
     private boolean keepComingBack = true;
     private boolean onTravel = true;
-    private boolean isOnTheWagon = false;
 
     public Passenger(int id, int timeBoarding, int timeLanding){
         this.id = id;
@@ -53,14 +52,12 @@ public class Passenger extends Thread {
         }
         getInstance().passengersOnWagon.add(this);
         System.out.println("Passenger "+ id +" embarcou!");
-        System.out.println("passengersOnWagon "+ getInstance().passengersOnWagon );
 
-        this.isOnTheWagon = true;
         if (getInstance().passengersOnWagon.size() == getInstance().wagon.getAvailableSeats()){
-            waitingFull.release(getInstance().passengersWaitingFull);
+            waitingFull.release(passengersWaitingFull);
             getInstance().wagon.startTravel();
         }else {
-            getInstance().passengersWaitingFull++;
+            passengersWaitingFull++;
             waitingFull.acquire();
         }
     }
@@ -68,9 +65,10 @@ public class Passenger extends Thread {
 
     private void enjoyTravel(){
         System.out.println(id +" is enjoying the travel");
-        while (onTravel){
+        do {
             System.currentTimeMillis();
-        }
+            System.out.println(id +" is travelling");
+        } while (this.onTravel);
         System.out.println(id +" liked the travel");
     }
 
@@ -89,10 +87,15 @@ public class Passenger extends Thread {
         getInstance().passengersWaiting.add(this);
         for (int i = 0; i < getInstance().passengersOnWagon.size(); i++) {
             if (getInstance().passengersOnWagon.get(i).equals(this)){
+                System.out.println(id + " out of wagon");
                 getInstance().passengersOnWagon.remove(i);
             }
         }
-        accessWagon.release(getInstance().wagon.getAvailableSeats());
+        if (getInstance().passengersOnWagon.isEmpty()){
+            passengersWaitingFull = 0;
+            accessWagon.release(getInstance().wagon.getAvailableSeats());
+        }
+
     }
 
 
